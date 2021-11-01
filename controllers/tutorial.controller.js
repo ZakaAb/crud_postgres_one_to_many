@@ -52,3 +52,20 @@ exports.findTutorialById = (req, res) => {
       })
     })
 }
+
+exports.findCommentById = (req, res) => {
+  Comment.findByPk(req.params.id, { include: ['tutorial'] })
+    .then((data) => res.send(data))
+    .catch((err) => {
+      res.status(500).send({
+        message:
+          err.message || 'Some error occurred while finding the Comment.',
+      })
+    })
+}
+
+exports.findAll = (req, res) => {
+  // Tutorial.findAll({ limit: 1, offset: 2 }).then((data) => res.send(data))
+  Tutorial.findAll({ include: ['comments'] }).then((data) => res.send(data))
+  // Comment.findAll({ include: ['tutorial'] }).then(data => res.send(data))
+}
